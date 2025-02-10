@@ -13,20 +13,16 @@ class HomeTableViewCell: UITableViewCell {
     lazy var image: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .systemGray
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
     lazy var dateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 22)
+        label.backgroundColor = .white
         return label
     }()
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-//        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 12, right: 0))
-    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -36,8 +32,6 @@ class HomeTableViewCell: UITableViewCell {
         
         image.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.width.equalTo(UIScreen.main.bounds.width)
-            $0.height.equalTo(image.snp.width).multipliedBy(7/4)
         }
         
         dateLabel.snp.makeConstraints {

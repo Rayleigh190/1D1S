@@ -18,7 +18,6 @@ class HomeViewController: UIViewController {
         let tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.rowHeight = UITableView.automaticDimension
         tableView.register(HomeTableViewCell.self, forCellReuseIdentifier: HomeTableViewCell.identifier)
         return tableView
     }()
@@ -34,7 +33,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        setupSubViews()
+        setSubViews()
         setBindings()
         viewModel.fetchDatas()
     }
@@ -85,13 +84,23 @@ extension HomeViewController: UITableViewDataSource & UITableViewDelegate {
         }
         cell.image.image = photoDatas[indexPath.row].image
         cell.dateLabel.text = photoDatas[indexPath.row].photo.date.description
+        cell.selectionStyle = .none
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let width = tableView.frame.size.width
+        guard let image = photoDatas[indexPath.row].image else { return 100 }
+        let height = image.size.height * width / image.size.width
+        return height
     }
 }
 
 private extension HomeViewController {
-    func setupSubViews() {
-        [tableView, cameraButton].forEach({ view.addSubview($0) })
+    func setSubViews() {
+        [tableView, cameraButton].forEach {
+            view.addSubview($0)
+        }
         
         tableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
